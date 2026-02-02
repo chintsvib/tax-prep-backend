@@ -1,0 +1,25 @@
+@app.post("/api/v1/process-tax")
+async def process_tax_flow(file: UploadFile = File(...)):
+    # 1. Extraction Agent gets the data from PDF
+    pdf_bytes = await file.read()
+    raw_text = extract_text_from_pdf(pdf_bytes) # Use your pdfplumber logic
+    
+    extractor = ExtractionAgent(raw_text)
+    last_year_data = await extractor.run()
+    
+    # 2. Return this to Lovable so it can populate the Review Dashboard
+    return {
+        "last_year": last_year_data,
+        "status": "Ready for Review"
+    }
+
+@app.post("/api/v1/calculate-insight")
+async def get_insights(payload: dict):
+    # payload contains {'last_year': {...}, 'this_year': {...}}
+    insighter = InsightAgent()
+    analysis = insighter.generate_comparison(payload['last_year'], payload['this_year'])
+    
+    return {
+        "insights": analysis,
+        "estimate": calculate_tax_logic(payload['this_year']) # Your simplified math
+    }

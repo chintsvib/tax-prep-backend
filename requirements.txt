@@ -1,0 +1,9 @@
+fastapi 
+uvicorn 
+pdfplumber 
+openai 
+pydantic 
+python-multipart
+dotenv
+reportlab
+pypdf2
