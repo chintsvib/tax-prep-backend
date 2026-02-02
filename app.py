@@ -10,6 +10,14 @@ from agents.drafting_agent import DraftingAgent
 
 app = FastAPI()
 
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # For development; narrow this down for production
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Initialize Agents (API Key from Environment Variable)
 API_KEY = os.getenv("OPENAI_API_KEY")
 extractor = ExtractionAgent(api_key=API_KEY)
