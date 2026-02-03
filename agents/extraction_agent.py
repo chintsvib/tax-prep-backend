@@ -56,7 +56,7 @@ class ExtractionAgent:
         
         SPECIAL CATEGORIES (Return null if value is 0.0 or not present):
         - other_income: (Line 8)
-        - other_income_description: (If Line 8 > 0, describe the source from Schedule 1, e.g., 'Gambling', 'State Refund')
+        - other_income_description: (If Line 8 > 0, describe the source from Schedule 1, e.g., 'Gambling', 'State Refund', 'Business Income/Loss', 'Rental Income', 'Unemployment Compensation', 'Hobby Income')
         - qbi_deduction: (Line 13)
         - self_employment_tax: (Line 23 or Schedule 2, Line 4)
         - schedule_2_total: (Line 17)
