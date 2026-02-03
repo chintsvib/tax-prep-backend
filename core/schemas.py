@@ -23,3 +23,15 @@ class ComparisonResponse(BaseModel):
     this_year_estimate: TaxYearData
     insights: List[str]
     refund_or_owe: float
+
+    # Inside schemas/tax_schemas.py
+from pydantic import BaseModel
+from typing import Optional
+
+class ReconciliationRequest(BaseModel):
+    filing_status: str = "Single"
+    wages: float = 0.0
+    schedule_1_income: float = 0.0
+    w2_withholding: float = 0.0
+    schedule_3_total: float = 0.0
+    total_deductions: Optional[float] = None # For itemizers

@@ -50,6 +50,7 @@ class ExtractionAgent:
         - deduction_type: (Check Line 12. If the box 'Itemized deductions (from Schedule A)' is checked, return 'Itemized'. Otherwise, return 'Standard'.)
         - total_deductions: (The dollar amount on Line 12)
         - taxable_income: (Line 15)
+        - child_tax_credit (Line 19)
         - total_tax: (Line 24)
         - refund_amount: (Line 34)
         - owed_amount: (Line 37)

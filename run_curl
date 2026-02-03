@@ -1,0 +1,5 @@
+curl -X 'POST' \
+  'http://127.0.0.1:8000/extract' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@//Users/chintanv/Downloads/2024_Tax_Return_1040.pdf;type=application/pdf'

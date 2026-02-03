@@ -10,6 +10,8 @@ from agents.drafting_agent import DraftingAgent
 
 app = FastAPI()
 
+math_engine = TaxMath()
+
 from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
@@ -72,3 +74,21 @@ async def generate_draft(data: TaxYearData):
         media_type="application/pdf", 
         filename="Your_Tax_Assistant_Draft.pdf"
     )
+
+
+@app.post("/api/v1/reconcile")
+async def reconcile_taxes(request: ReconciliationRequest):
+    try:
+        # 1. Convert Pydantic model to dictionary
+        input_data = request.model_dump()
+        
+        # 2. Run the math logic
+        results = math_engine.run_reconciliation(input_data)
+        
+        # 3. Return the payload to Lovable
+        return {
+            "status": "success",
+            "calculation": results
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
