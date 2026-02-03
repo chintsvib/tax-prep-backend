@@ -9,8 +9,12 @@ from core.schemas import TaxYearData
 from agents.drafting_agent import DraftingAgent
 from core.tax_math import TaxMath
 from core.schemas import ReconciliationRequest
+from fastapi import HTTPException
+from fastapi.responses import FileResponse
+
 
 app = FastAPI()
+math_engine = TaxMath()
 
 
 
@@ -42,7 +46,7 @@ from core.tax_math import TaxMath
 @app.post("/analyze")
 async def analyze_and_calculate(payload: AnalysisPayload):
     # 1. Run the Math Agent first
-    math_results = TaxMath.run_reconciliation(payload.this_year)
+    math_results = math_engine.run_reconciliation(payload.this_year)
     
     # 2. Run the Insight Agent
     insights = insighter.run(payload.last_year, payload.this_year)
@@ -86,7 +90,7 @@ async def reconcile_taxes(request: ReconciliationRequest):
         input_data = request.model_dump()
         
         # 2. Run the math logic
-        results = TaxMath.run_reconciliation(input_data)
+        results = math_engine.run_reconciliation(input_data)
         
         # 3. Return the payload to Lovable
         return {
