@@ -12,7 +12,7 @@ from core.schemas import ReconciliationRequest
 
 app = FastAPI()
 
-math_engine = TaxMath()
+
 
 from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
@@ -78,6 +78,7 @@ async def generate_draft(data: TaxYearData):
     )
 
 
+math_engine = TaxMath()
 @app.post("/api/v1/reconcile")
 async def reconcile_taxes(request: ReconciliationRequest):
     try:
@@ -85,7 +86,7 @@ async def reconcile_taxes(request: ReconciliationRequest):
         input_data = request.model_dump()
         
         # 2. Run the math logic
-        results = math_engine.run_reconciliation(input_data)
+        results = TaxMath.run_reconciliation(input_data)
         
         # 3. Return the payload to Lovable
         return {
