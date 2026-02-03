@@ -1,39 +1,39 @@
 import os
-from fastapi import FastAPI, UploadFile, File
-from agents.extraction_agent import ExtractionAgent
-from agents.insight_agent import InsightAgent
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
-load_dotenv()
-from core.schemas import TaxYearData
+
+# Internal Imports
+from agents.extraction_agent import ExtractionAgent
+from agents.insight_agent import InsightAgent
 from agents.drafting_agent import DraftingAgent
 from core.tax_math import TaxMath
-from core.schemas import ReconciliationRequest
-from fastapi import HTTPException
-from fastapi.responses import FileResponse
+from core.schemas import TaxYearData, ReconciliationRequest
 
+load_dotenv()
 
 app = FastAPI()
+
+# 1. Initialize Engines Once
 math_engine = TaxMath()
-
-
-
-from fastapi.middleware.cors import CORSMiddleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"], # For development; narrow this down for production
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Initialize Agents (API Key from Environment Variable)
 API_KEY = os.getenv("OPENAI_API_KEY")
 extractor = ExtractionAgent(api_key=API_KEY)
 insighter = InsightAgent()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 class AnalysisPayload(BaseModel):
     last_year: dict
     this_year: dict
+
+# --- ENDPOINTS ---
 
 @app.post("/extract")
 async def extract_tax_data(file: UploadFile = File(...)):
@@ -41,23 +41,21 @@ async def extract_tax_data(file: UploadFile = File(...)):
     data = await extractor.run(pdf_bytes)
     return {"status": "success", "data": data}
 
-from core.tax_math import TaxMath
-
 @app.post("/analyze")
 async def analyze_and_calculate(payload: AnalysisPayload):
-    # 1. Run the Math Agent first
+    # Use model_dump if these are Pydantic models, or leave as dict
     math_results = math_engine.run_reconciliation(payload.this_year)
-    
-    # 2. Run the Insight Agent
     insights = insighter.run(payload.last_year, payload.this_year)
     
-    # 3. Add a dynamic 'Math-based' insight
-    if math_results['refund_or_owe'] < 0:
+    # Corrected key access: Use 'balance' from our tax_math.py logic
+    balance = math_results.get('balance', 0)
+    
+    if balance < 0:
         math_results['status'] = "OWE"
         insights.append({
             "type": "warning",
             "title": "Payment Shortfall",
-            "text": f"Based on your changes, you may owe ${abs(math_results['refund_or_owe']):,.2f}. Consider adjusting your withholding now."
+            "text": f"Based on your changes, you may owe ${abs(balance):,.2f}. Consider adjusting your withholding now."
         })
     else:
         math_results['status'] = "REFUND"
@@ -68,34 +66,26 @@ async def analyze_and_calculate(payload: AnalysisPayload):
         "insights": insights
     }
 
+@app.post("/api/v1/reconcile")
+async def reconcile_taxes(request: ReconciliationRequest):
+    try:
+        # request.model_dump() handles the Pydantic to Dict conversion
+        results = math_engine.run_reconciliation(request.model_dump())
+        return {
+            "status": "success",
+            "calculation": results # This is the key test_api.py is looking for
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/generate-draft")
 async def generate_draft(data: TaxYearData):
     drafter = DraftingAgent("data/f1040_template.pdf")
     output_filename = "tax_draft_2025.pdf"
-    
-    drafter.generate(data.dict(), output_filename)
+    drafter.generate(data.model_dump(), output_filename)
     
     return FileResponse(
         output_filename, 
         media_type="application/pdf", 
         filename="Your_Tax_Assistant_Draft.pdf"
     )
-
-
-math_engine = TaxMath()
-@app.post("/api/v1/reconcile")
-async def reconcile_taxes(request: ReconciliationRequest):
-    try:
-        # 1. Convert Pydantic model to dictionary
-        input_data = request.model_dump()
-        
-        # 2. Run the math logic
-        results = math_engine.run_reconciliation(input_data)
-        
-        # 3. Return the payload to Lovable
-        return {
-            "status": "success",
-            "calculation": results
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
