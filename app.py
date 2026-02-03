@@ -8,6 +8,7 @@ load_dotenv()
 from core.schemas import TaxYearData
 from agents.drafting_agent import DraftingAgent
 from core.tax_math import TaxMath
+from core.schemas import ReconciliationRequest
 
 app = FastAPI()
 
@@ -36,12 +37,12 @@ async def extract_tax_data(file: UploadFile = File(...)):
     data = await extractor.run(pdf_bytes)
     return {"status": "success", "data": data}
 
-from core.tax_math import calculate_2025_estimate
+from core.tax_math import TaxMath
 
 @app.post("/analyze")
 async def analyze_and_calculate(payload: AnalysisPayload):
     # 1. Run the Math Agent first
-    math_results = calculate_2025_estimate(payload.this_year)
+    math_results = TaxMath.run_reconciliation(payload.this_year)
     
     # 2. Run the Insight Agent
     insights = insighter.run(payload.last_year, payload.this_year)
