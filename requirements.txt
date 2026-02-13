@@ -13,3 +13,4 @@ passlib[bcrypt]
 bcrypt
 pytest
 httpx
+psycopg2-binary

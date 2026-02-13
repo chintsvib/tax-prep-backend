@@ -1,4 +1,5 @@
 import os
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,7 +19,14 @@ from routes.life_events import router as life_events_router
 
 load_dotenv()
 
-app = FastAPI(title="Tax Prep Assistant", version="2.0.0")
+
+@asynccontextmanager
+async def lifespan(app):
+    create_db()
+    yield
+
+
+app = FastAPI(title="Tax Prep Assistant", version="2.0.0", lifespan=lifespan)
 
 # 1. Initialize Engines Once
 math_engine = TaxMath()
@@ -31,24 +39,27 @@ if API_KEY:
     from agents.extraction_agent import ExtractionAgent
     extractor = ExtractionAgent(api_key=API_KEY)
 
+# 2. CORS from environment
+origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 2. Include Routers
+# 3. Include Routers
 app.include_router(auth_router)
 app.include_router(scenarios_router)
 app.include_router(insights_router)
 app.include_router(life_events_router)
 
 
-# 3. Create DB tables on startup
-@app.on_event("startup")
-def on_startup():
-    create_db()
+# --- HEALTH CHECK ---
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 
 class AnalysisPayload(BaseModel):
