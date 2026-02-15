@@ -40,10 +40,12 @@ if API_KEY:
     extractor = ExtractionAgent(api_key=API_KEY)
 
 # 2. CORS from environment
-origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
+raw_origins = os.getenv("ALLOWED_ORIGINS", "*")
+origins = [o.strip() for o in raw_origins.split(",")]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
