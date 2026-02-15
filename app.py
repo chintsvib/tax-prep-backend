@@ -39,13 +39,10 @@ if API_KEY:
     from agents.extraction_agent import ExtractionAgent
     extractor = ExtractionAgent(api_key=API_KEY)
 
-# 2. CORS from environment
-raw_origins = os.getenv("ALLOWED_ORIGINS", "*")
-origins = [o.strip() for o in raw_origins.split(",")]
+# 2. CORS — allow all origins (lock down in production)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
