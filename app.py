@@ -16,6 +16,7 @@ from routes.auth import router as auth_router
 from routes.scenarios import router as scenarios_router
 from routes.insights import router as insights_router
 from routes.life_events import router as life_events_router
+from routes.tax_records import router as tax_records_router
 
 load_dotenv()
 
@@ -52,6 +53,7 @@ app.include_router(auth_router)
 app.include_router(scenarios_router)
 app.include_router(insights_router)
 app.include_router(life_events_router)
+app.include_router(tax_records_router)
 
 
 # --- HEALTH CHECK ---
