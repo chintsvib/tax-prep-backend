@@ -63,27 +63,46 @@ class TokenResponse(BaseModel):
 class TaxRecordCreate(BaseModel):
     tax_year: int
     filing_status: str = "Single"
+    dependents_count: int = 0
     wages: float = 0.0
     schedule_1_income: float = 0.0
     w2_withholding: float = 0.0
     schedule_3_total: float = 0.0
     total_deductions: Optional[float] = None
+    deduction_type: str = "Standard"
     self_employment_tax: float = 0.0
     qbi_deduction: float = 0.0
     schedule_2_total: float = 0.0
     estimated_tax_payments: float = 0.0
     other_income: float = 0.0
+    child_tax_credit: float = 0.0
+    taxable_interest: float = 0.0
+    ordinary_dividends: float = 0.0
+    capital_gain_or_loss: float = 0.0
+    withholding_1099: float = 0.0
 
 
 class TaxRecordResponse(BaseModel):
     id: int
     tax_year: int
     filing_status: str
+    dependents_count: int
     wages: float
     schedule_1_income: float
     w2_withholding: float
     schedule_3_total: float
     total_deductions: Optional[float]
+    deduction_type: str
+    self_employment_tax: float
+    qbi_deduction: float
+    schedule_2_total: float
+    estimated_tax_payments: float
+    other_income: float
+    child_tax_credit: float
+    taxable_interest: float
+    ordinary_dividends: float
+    capital_gain_or_loss: float
+    withholding_1099: float
     agi: float
     taxable_income: float
     total_tax: float

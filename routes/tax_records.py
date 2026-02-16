@@ -35,16 +35,23 @@ async def upload_tax_return(
         user_id=user.id,
         tax_year=tax_year,
         filing_status=extracted.get("filing_status", "Single"),
+        dependents_count=extracted.get("dependents_count") or 0,
         wages=extracted.get("wages") or 0,
         schedule_1_income=extracted.get("other_income") or 0,
         w2_withholding=extracted.get("w2_withholding") or 0,
         schedule_3_total=extracted.get("schedule_3_total") or 0,
         total_deductions=extracted.get("total_deductions") or 0,
+        deduction_type=extracted.get("deduction_type", "Standard"),
         self_employment_tax=extracted.get("self_employment_tax") or 0,
         qbi_deduction=extracted.get("qbi_deduction") or 0,
         schedule_2_total=extracted.get("schedule_2_total") or 0,
         estimated_tax_payments=extracted.get("estimated_tax_payments") or 0,
         other_income=extracted.get("other_income") or 0,
+        child_tax_credit=extracted.get("child_tax_credit") or 0,
+        taxable_interest=extracted.get("taxable_interest") or 0,
+        ordinary_dividends=extracted.get("ordinary_dividends") or 0,
+        capital_gain_or_loss=extracted.get("capital_gain_or_loss") or 0,
+        withholding_1099=extracted.get("withholding_1099") or 0,
         agi=extracted.get("agi") or 0,
         taxable_income=extracted.get("taxable_income") or 0,
         total_tax=extracted.get("total_tax") or 0,
@@ -76,16 +83,23 @@ def create_tax_record(
         user_id=user.id,
         tax_year=req.tax_year,
         filing_status=req.filing_status,
+        dependents_count=req.dependents_count,
         wages=req.wages,
         schedule_1_income=req.schedule_1_income,
         w2_withholding=req.w2_withholding,
         schedule_3_total=req.schedule_3_total,
         total_deductions=req.total_deductions,
+        deduction_type=req.deduction_type,
         self_employment_tax=req.self_employment_tax,
         qbi_deduction=req.qbi_deduction,
         schedule_2_total=req.schedule_2_total,
         estimated_tax_payments=req.estimated_tax_payments,
         other_income=req.other_income,
+        child_tax_credit=req.child_tax_credit,
+        taxable_interest=req.taxable_interest,
+        ordinary_dividends=req.ordinary_dividends,
+        capital_gain_or_loss=req.capital_gain_or_loss,
+        withholding_1099=req.withholding_1099,
         source="manual",
     )
     session.add(record)
@@ -132,16 +146,23 @@ def update_tax_record(
 
     record.tax_year = req.tax_year
     record.filing_status = req.filing_status
+    record.dependents_count = req.dependents_count
     record.wages = req.wages
     record.schedule_1_income = req.schedule_1_income
     record.w2_withholding = req.w2_withholding
     record.schedule_3_total = req.schedule_3_total
     record.total_deductions = req.total_deductions
+    record.deduction_type = req.deduction_type
     record.self_employment_tax = req.self_employment_tax
     record.qbi_deduction = req.qbi_deduction
     record.schedule_2_total = req.schedule_2_total
     record.estimated_tax_payments = req.estimated_tax_payments
     record.other_income = req.other_income
+    record.child_tax_credit = req.child_tax_credit
+    record.taxable_interest = req.taxable_interest
+    record.ordinary_dividends = req.ordinary_dividends
+    record.capital_gain_or_loss = req.capital_gain_or_loss
+    record.withholding_1099 = req.withholding_1099
 
     session.add(record)
     session.commit()

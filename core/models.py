@@ -16,16 +16,23 @@ class TaxRecord(SQLModel, table=True):
     user_id: int = Field(foreign_key="user.id", index=True)
     tax_year: int
     filing_status: str = "Single"
+    dependents_count: int = 0
     wages: float = 0.0
     schedule_1_income: float = 0.0
     w2_withholding: float = 0.0
     schedule_3_total: float = 0.0
     total_deductions: Optional[float] = None
+    deduction_type: str = "Standard"
     self_employment_tax: float = 0.0
     qbi_deduction: float = 0.0
     schedule_2_total: float = 0.0
     estimated_tax_payments: float = 0.0
     other_income: float = 0.0
+    child_tax_credit: float = 0.0
+    taxable_interest: float = 0.0
+    ordinary_dividends: float = 0.0
+    capital_gain_or_loss: float = 0.0
+    withholding_1099: float = 0.0
     agi: float = 0.0
     taxable_income: float = 0.0
     total_tax: float = 0.0
