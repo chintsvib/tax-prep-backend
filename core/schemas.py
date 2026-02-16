@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from typing import Optional, List
 
 
@@ -80,6 +80,19 @@ class TaxRecordCreate(BaseModel):
     ordinary_dividends: float = 0.0
     capital_gain_or_loss: float = 0.0
     withholding_1099: float = 0.0
+
+    @field_validator(
+        "wages", "schedule_1_income", "w2_withholding", "schedule_3_total",
+        "self_employment_tax", "qbi_deduction", "schedule_2_total",
+        "estimated_tax_payments", "other_income", "child_tax_credit",
+        "taxable_interest", "ordinary_dividends", "capital_gain_or_loss",
+        "withholding_1099", "dependents_count",
+        mode="before",
+    )
+    @classmethod
+    def coerce_none_to_zero(cls, v):
+        """Frontend may pass null for numeric fields extracted as None by AI."""
+        return v if v is not None else 0
 
 
 class TaxRecordResponse(BaseModel):

@@ -38,8 +38,6 @@ engine = create_engine(DATABASE_URL, echo=False, connect_args=connect_args, pool
 
 def _migrate_columns():
     """Add any missing columns to existing tables (lightweight auto-migration)."""
-    if DATABASE_URL.startswith("sqlite"):
-        return  # SQLite in dev/test — tables are recreated each time
 
     inspector = inspect(engine)
     for table_name, table in SQLModel.metadata.tables.items():
