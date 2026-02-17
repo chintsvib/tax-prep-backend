@@ -135,6 +135,21 @@ def get_tax_record(
     return record
 
 
+@router.delete("/{record_id}")
+def delete_tax_record(
+    record_id: int,
+    user: User = Depends(get_current_user),
+    session: Session = Depends(get_session),
+):
+    """Delete a tax record."""
+    record = session.get(TaxRecord, record_id)
+    if not record or record.user_id != user.id:
+        raise HTTPException(status_code=404, detail="Tax record not found")
+    session.delete(record)
+    session.commit()
+    return {"status": "deleted", "id": record_id}
+
+
 @router.put("/{record_id}/debug")
 async def debug_update_payload(record_id: int, request: Request):
     """Temporary: log raw request body to diagnose 422 errors."""
