@@ -1,10 +1,13 @@
 import os
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+import logging
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Request
 from sqlmodel import Session, select
 from core.database import get_session
 from core.models import User, TaxRecord
 from core.auth import get_current_user
 from core.schemas import TaxRecordCreate, TaxRecordResponse
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/tax-records", tags=["tax-records"])
 
@@ -130,6 +133,15 @@ def get_tax_record(
     if not record or record.user_id != user.id:
         raise HTTPException(status_code=404, detail="Tax record not found")
     return record
+
+
+@router.put("/{record_id}/debug")
+async def debug_update_payload(record_id: int, request: Request):
+    """Temporary: log raw request body to diagnose 422 errors."""
+    body = await request.json()
+    logger.warning(f"[DEBUG PUT /tax-records/{record_id}] Raw body keys: {list(body.keys())}")
+    logger.warning(f"[DEBUG PUT /tax-records/{record_id}] Raw body: {body}")
+    return {"received_keys": list(body.keys()), "body": body}
 
 
 @router.put("/{record_id}", response_model=TaxRecordResponse)

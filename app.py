@@ -1,10 +1,14 @@
 import os
+import logging
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, UploadFile, File, HTTPException, Request
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
 from pydantic import BaseModel
 from dotenv import load_dotenv
+
+logging.basicConfig(level=logging.INFO)
 
 # Internal Imports
 from agents.insight_agent import InsightAgent
@@ -28,6 +32,16 @@ async def lifespan(app):
 
 
 app = FastAPI(title="Tax Prep Assistant", version="2.0.0", lifespan=lifespan)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    """Log detailed validation errors for debugging."""
+    logging.warning(f"[422] {request.method} {request.url.path}")
+    for err in exc.errors():
+        logging.warning(f"  Field: {err.get('loc')} | Type: {err.get('type')} | Msg: {err.get('msg')}")
+    return JSONResponse(status_code=422, content={"detail": exc.errors()})
+
 
 # 1. Initialize Engines Once
 math_engine = TaxMath()
