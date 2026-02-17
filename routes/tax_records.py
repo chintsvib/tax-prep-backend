@@ -5,7 +5,7 @@ from sqlmodel import Session, select
 from core.database import get_session
 from core.models import User, TaxRecord
 from core.auth import get_current_user
-from core.schemas import TaxRecordCreate, TaxRecordResponse
+from core.schemas import TaxRecordCreate, TaxRecordUpdate, TaxRecordResponse
 
 logger = logging.getLogger(__name__)
 
@@ -147,34 +147,18 @@ async def debug_update_payload(record_id: int, request: Request):
 @router.put("/{record_id}", response_model=TaxRecordResponse)
 def update_tax_record(
     record_id: int,
-    req: TaxRecordCreate,
+    req: TaxRecordUpdate,
     user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
 ):
-    """Update a tax record (e.g., user corrects extracted data)."""
+    """Update a tax record — only overwrites fields the frontend sends."""
     record = session.get(TaxRecord, record_id)
     if not record or record.user_id != user.id:
         raise HTTPException(status_code=404, detail="Tax record not found")
 
-    record.tax_year = req.tax_year
-    record.filing_status = req.filing_status
-    record.dependents_count = req.dependents_count
-    record.wages = req.wages
-    record.schedule_1_income = req.schedule_1_income
-    record.w2_withholding = req.w2_withholding
-    record.schedule_3_total = req.schedule_3_total
-    record.total_deductions = req.total_deductions
-    record.deduction_type = req.deduction_type
-    record.self_employment_tax = req.self_employment_tax
-    record.qbi_deduction = req.qbi_deduction
-    record.schedule_2_total = req.schedule_2_total
-    record.estimated_tax_payments = req.estimated_tax_payments
-    record.other_income = req.other_income
-    record.child_tax_credit = req.child_tax_credit
-    record.taxable_interest = req.taxable_interest
-    record.ordinary_dividends = req.ordinary_dividends
-    record.capital_gain_or_loss = req.capital_gain_or_loss
-    record.withholding_1099 = req.withholding_1099
+    update_data = req.model_dump(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(record, field, value)
 
     session.add(record)
     session.commit()

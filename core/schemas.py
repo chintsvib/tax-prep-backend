@@ -95,6 +95,11 @@ class TaxRecordCreate(BaseModel):
         return v if v is not None else 0
 
 
+class TaxRecordUpdate(TaxRecordCreate):
+    """For PUT — all fields optional. Only provided fields get updated."""
+    tax_year: Optional[int] = None
+
+
 class TaxRecordResponse(BaseModel):
     id: int
     tax_year: int
