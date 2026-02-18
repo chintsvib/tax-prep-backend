@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from core.database import get_session
 from core.models import User
 from core.auth import hash_password, verify_password, create_access_token, get_current_user
-from core.schemas import SignupRequest, LoginRequest, TokenResponse
+from core.schemas import SignupRequest, LoginRequest, ResetPasswordRequest, TokenResponse
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -35,6 +35,18 @@ def login(req: LoginRequest, session: Session = Depends(get_session)):
 
     token = create_access_token(user.id, user.email)
     return TokenResponse(access_token=token, user_id=user.id, email=user.email)
+
+
+@router.post("/reset-password")
+def reset_password(req: ResetPasswordRequest, session: Session = Depends(get_session)):
+    user = session.exec(select(User).where(User.email == req.email)).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user.hashed_password = hash_password(req.new_password)
+    session.add(user)
+    session.commit()
+    return {"detail": "Password updated successfully"}
 
 
 @router.get("/me")
