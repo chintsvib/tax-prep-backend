@@ -19,9 +19,9 @@ LIFE_EVENTS = {
     },
     "had_baby": {
         "name": "Had a Baby",
-        "description": "Add a $2,000 Child Tax Credit for a new dependent",
-        "fields_affected": ["schedule_3_total"],
-        "adjustments": {"schedule_3_total_add": 2000},
+        "description": "Add a $2,200 Child Tax Credit for a new dependent (2025 amount)",
+        "fields_affected": ["dependents_count"],
+        "adjustments": {"dependents_count_add": 1},
     },
     "started_side_hustle": {
         "name": "Started a Side Hustle",
