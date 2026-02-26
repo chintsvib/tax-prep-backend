@@ -24,17 +24,26 @@ export default function ResultSummary({ result }: ResultSummaryProps) {
   const isIncrease = result.total_change_direction === "increased_refund";
   const changeAbs = Math.abs(result.total_change);
 
+  const priorType = result.prior_balance_type;
+  const currentType = result.current_balance_type;
+
   let headline: string;
   if (result.total_change === 0) {
     headline = "Your tax outcome stayed the same";
+  } else if (priorType === "owed" && currentType === "refund") {
+    // Crossed over: was owing, now getting refund
+    headline = `You went from owing ${fmt(result.prior_balance)} to a ${fmt(result.current_balance)} refund`;
+  } else if (priorType === "refund" && currentType === "owed") {
+    // Crossed over: was getting refund, now owing
+    headline = `You went from a ${fmt(result.prior_balance)} refund to owing ${fmt(result.current_balance)}`;
   } else if (isIncrease) {
-    if (result.current_balance_type === "refund") {
+    if (currentType === "refund") {
       headline = `Your refund increased by ${fmt(changeAbs)}`;
     } else {
       headline = `You owe ${fmt(changeAbs)} less this year`;
     }
   } else {
-    if (result.current_balance_type === "owed") {
+    if (currentType === "owed") {
       headline = `You owe ${fmt(changeAbs)} more this year`;
     } else {
       headline = `Your refund decreased by ${fmt(changeAbs)}`;
