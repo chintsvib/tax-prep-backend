@@ -34,7 +34,7 @@
 }
 
 .columnTitle {
-  font-family: "Instrument Serif", serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.4rem;
   color: #1a1714;
 }
@@ -45,7 +45,7 @@
   border-radius: 6px;
   color: #1a1714;
   padding: 6px 12px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.85rem;
   cursor: pointer;
   outline: none;
@@ -74,7 +74,7 @@
   border-right: 1px solid #d4cfc8;
   color: #9a958e;
   padding: 8px 4px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
@@ -149,7 +149,7 @@
   border: none;
   color: #1a1714;
   padding: 10px 12px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.95rem;
   width: 100%;
   outline: none;
@@ -185,7 +185,7 @@
   background: none;
   border: none;
   color: #9a958e;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.85rem;
   cursor: pointer;
   padding: 8px 0;
@@ -223,7 +223,7 @@
   border: none;
   border-radius: 10px;
   padding: 16px;
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: -0.01em;

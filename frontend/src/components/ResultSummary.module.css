@@ -4,7 +4,7 @@
 }
 
 .headline {
-  font-family: "Instrument Serif", serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(1.6rem, 4vw, 2.6rem);
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -42,7 +42,7 @@
 }
 
 .yearAmount {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: #1a1714;

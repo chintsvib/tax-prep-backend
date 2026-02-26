@@ -83,9 +83,9 @@ export interface RefundExplainerResponse {
   prior_year: number;
   current_year: number;
   prior_balance: number;
-  prior_balance_type: "refund" | "owed";
+  prior_balance_type: "refund" | "owe";
   current_balance: number;
-  current_balance_type: "refund" | "owed";
+  current_balance_type: "refund" | "owe";
   total_change: number;
   total_change_direction: ChangeDirection;
   drivers: RefundChangeDriver[];

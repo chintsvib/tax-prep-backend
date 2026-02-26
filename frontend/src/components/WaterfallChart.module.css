@@ -3,7 +3,7 @@
 }
 
 .sectionTitle {
-  font-family: "Instrument Serif", serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.3rem;
   color: #1a1714;
   margin-bottom: 24px;
@@ -69,7 +69,7 @@
 }
 
 .amount {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
   flex-shrink: 0;

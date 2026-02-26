@@ -15,7 +15,7 @@
 }
 
 :global(body) {
-  font-family: "DM Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   background: #faf7f2;
   color: #1a1714;
   line-height: 1.5;
@@ -53,11 +53,12 @@
 }
 
 .heroTitle {
-  font-family: "Instrument Serif", serif;
-  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-family: "Inter", sans-serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 800;
   color: #1a1714;
   line-height: 1.1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   margin-bottom: 12px;
 }
 

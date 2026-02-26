@@ -30,10 +30,10 @@ export default function ResultSummary({ result }: ResultSummaryProps) {
   let headline: string;
   if (result.total_change === 0) {
     headline = "Your tax outcome stayed the same";
-  } else if (priorType === "owed" && currentType === "refund") {
+  } else if (priorType === "owe" && currentType === "refund") {
     // Crossed over: was owing, now getting refund
     headline = `You went from owing ${fmt(result.prior_balance)} to a ${fmt(result.current_balance)} refund`;
-  } else if (priorType === "refund" && currentType === "owed") {
+  } else if (priorType === "refund" && currentType === "owe") {
     // Crossed over: was getting refund, now owing
     headline = `You went from a ${fmt(result.prior_balance)} refund to owing ${fmt(result.current_balance)}`;
   } else if (isIncrease) {
@@ -43,7 +43,7 @@ export default function ResultSummary({ result }: ResultSummaryProps) {
       headline = `You owe ${fmt(changeAbs)} less this year`;
     }
   } else {
-    if (currentType === "owed") {
+    if (currentType === "owe") {
       headline = `You owe ${fmt(changeAbs)} more this year`;
     } else {
       headline = `Your refund decreased by ${fmt(changeAbs)}`;
