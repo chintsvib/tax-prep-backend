@@ -1,0 +1,52 @@
+.wrap {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e8e4de;
+}
+
+.heading {
+  color: #9a958e;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #faf7f2;
+  border: 1px solid #d4cfc8;
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: #7a756e;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  border-color: #9a7132;
+  color: #1a1714;
+}
+
+.chipActive {
+  background: rgba(154, 113, 50, 0.1);
+  border-color: #9a7132;
+  color: #9a7132;
+}
+
+.icon {
+  font-size: 0.9rem;
+}

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, field_validator
-from typing import Optional, List
+from typing import Any, Optional, List
 
 
 # --- Existing schemas (preserved) ---
@@ -230,4 +230,39 @@ class OptimizationResponse(BaseModel):
     current_type: str
     recommendations: List[Recommendation]
     total_potential_savings: float
+    ai_summary: Optional[str] = None
+
+
+# --- Refund Explainer schemas ---
+
+class RefundExplainerRequest(BaseModel):
+    prior_record_id: Optional[int] = None
+    current_record_id: Optional[int] = None
+    prior_year: Optional[int] = None
+    current_year: Optional[int] = None
+    prior_data: Optional[dict] = None
+    current_data: Optional[dict] = None
+
+
+class RefundChangeDriver(BaseModel):
+    field: str
+    label: str
+    category: str  # "income", "deduction", "tax", "credit", "payment", "structural", "interaction"
+    prior_value: Optional[Any] = None
+    current_value: Optional[Any] = None
+    impact_on_balance: float
+    direction: str  # "increased_refund" or "decreased_refund"
+    explanation: str
+
+
+class RefundExplainerResponse(BaseModel):
+    prior_year: Optional[int]
+    current_year: Optional[int]
+    prior_balance: float
+    prior_balance_type: str
+    current_balance: float
+    current_balance_type: str
+    total_change: float
+    total_change_direction: str
+    drivers: List[RefundChangeDriver]
     ai_summary: Optional[str] = None

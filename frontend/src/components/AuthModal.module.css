@@ -1,0 +1,105 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: #fff;
+  border: 1px solid #e0dbd4;
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-family: "Instrument Serif", serif;
+  font-size: 2rem;
+  color: #1a1714;
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  color: #7a756e;
+  font-size: 0.9rem;
+  margin: 0 0 28px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.input {
+  background: #faf7f2;
+  border: 1px solid #d4cfc8;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #1a1714;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: #9a7132;
+}
+
+.input::placeholder {
+  color: #b0aaa2;
+}
+
+.error {
+  color: #c93a2a;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.submit {
+  background: #9a7132;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 13px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.2s;
+}
+
+.submit:hover {
+  background: #b08540;
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.toggle {
+  background: none;
+  border: none;
+  color: #7a756e;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-top: 20px;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.toggle:hover {
+  color: #1a1714;
+}

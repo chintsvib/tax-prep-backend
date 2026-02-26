@@ -1,0 +1,98 @@
+.wrap {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+
+.headline {
+  font-family: "Instrument Serif", serif;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+
+.positive {
+  color: #16803c;
+}
+
+.negative {
+  color: #c93a2a;
+}
+
+.comparison {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.yearBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.yearLabel {
+  color: #9a958e;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.yearAmount {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1714;
+}
+
+.arrow {
+  flex-shrink: 0;
+  padding-top: 16px;
+}
+
+.aiCallout {
+  margin-top: 28px;
+  background: #fff;
+  border: 1px solid #e0dbd4;
+  border-left: 3px solid #9a7132;
+  border-radius: 8px;
+  padding: 16px 20px;
+  text-align: left;
+}
+
+.aiLabel {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9a7132;
+  margin-bottom: 10px;
+}
+
+.aiList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aiList li {
+  color: #4a4540;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  padding-left: 14px;
+  position: relative;
+}
+
+.aiList li::before {
+  content: "\2022";
+  position: absolute;
+  left: 0;
+  color: #c8bfb4;
+}

@@ -149,7 +149,14 @@ class TaxMath:
         status = data.get("filing_status", "Single")
         wages = data.get("wages") or 0.0
         sch1_income = data.get("schedule_1_income") or 0.0
-        withholding = data.get("w2_withholding") or 0.0
+        other_income = data.get("other_income") or 0.0
+        taxable_interest = data.get("taxable_interest") or 0.0
+        ordinary_dividends = data.get("ordinary_dividends") or 0.0
+        capital_gain_or_loss = data.get("capital_gain_or_loss") or 0.0
+        qbi_deduction = data.get("qbi_deduction") or 0.0
+        w2_withholding = data.get("w2_withholding") or 0.0
+        withholding_1099 = data.get("withholding_1099") or 0.0
+        estimated_tax_payments = data.get("estimated_tax_payments") or 0.0
         sch3_credits = data.get("schedule_3_total") or 0.0
         dependents = data.get("dependents_count") or 0
         child_tax_credit_override = data.get("child_tax_credit")
@@ -157,13 +164,20 @@ class TaxMath:
         # 2. Above-the-line Adjustments (SE Tax)
         se_results = self.calculate_se_tax(sch1_income) if sch1_income > 0 else {"total_se_tax": 0, "deductible_portion": 0}
 
-        # 3. Calculate AGI
-        gross_income = wages + sch1_income
+        # 3. Calculate AGI (1040 Lines 1-11)
+        gross_income = (
+            wages
+            + sch1_income
+            + other_income
+            + taxable_interest
+            + ordinary_dividends
+            + capital_gain_or_loss  # can be negative (net loss, capped at -$3,000 by filer)
+        )
         agi = gross_income - se_results["deductible_portion"]
 
-        # 4. Taxable Income
+        # 4. Taxable Income (1040 Lines 12-15)
         deduction = max(data.get("total_deductions") or 0.0, STANDARD_DEDUCTION.get(status, 15750.0))
-        taxable_income = max(0, agi - deduction)
+        taxable_income = max(0, agi - deduction - qbi_deduction)
 
         # 5. Tax Liability
         income_tax = self.calculate_income_tax(taxable_income, status)
@@ -172,7 +186,6 @@ class TaxMath:
 
         # 6. Child Tax Credit
         if child_tax_credit_override is not None and child_tax_credit_override > 0:
-            # Use the value provided (e.g. from PDF extraction of prior-year return)
             ctc = {"ctc_nonrefundable": min(child_tax_credit_override, total_tax_liability),
                    "ctc_refundable": 0.0,
                    "ctc_total": min(child_tax_credit_override, total_tax_liability)}
@@ -183,9 +196,14 @@ class TaxMath:
             )
 
         # 7. Final Result (Refund or Owe)
-        # Non-refundable credits reduce tax liability; refundable credits add to payments
         tax_after_credits = max(0, total_tax_liability - ctc["ctc_nonrefundable"])
-        total_payments = withholding + sch3_credits + ctc["ctc_refundable"]
+        total_payments = (
+            w2_withholding
+            + withholding_1099
+            + estimated_tax_payments
+            + sch3_credits
+            + ctc["ctc_refundable"]
+        )
         final_balance = total_payments - tax_after_credits
 
         return {

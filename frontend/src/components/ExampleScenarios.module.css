@@ -1,0 +1,25 @@
+.wrap {
+  margin-bottom: 20px;
+}
+
+.select {
+  width: 100%;
+  background: #fff;
+  border: 1px dashed #d4cfc8;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #7a756e;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.select:focus {
+  border-color: #9a7132;
+}
+
+.select option {
+  color: #1a1714;
+}

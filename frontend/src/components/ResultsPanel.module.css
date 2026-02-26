@@ -1,0 +1,62 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 50;
+}
+
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 560px;
+  max-width: 100vw;
+  background: #faf7f2;
+  border-left: 1px solid #e0dbd4;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.08);
+  z-index: 51;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panelHeader {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e0dbd4;
+  flex-shrink: 0;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #7a756e;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+
+.closeBtn:hover {
+  color: #1a1714;
+}
+
+.panelBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 32px 40px;
+}
+
+@media (max-width: 640px) {
+  .panel {
+    width: 100vw;
+  }
+
+  .panelBody {
+    padding: 8px 20px 40px;
+  }
+}

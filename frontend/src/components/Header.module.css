@@ -1,0 +1,57 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+  border-bottom: 1px solid #e0dbd4;
+  margin-bottom: 48px;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.6rem;
+  color: #1a1714;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  color: #9a958e;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.email {
+  color: #7a756e;
+  font-size: 0.85rem;
+}
+
+.authBtn {
+  background: none;
+  border: 1px solid #d4cfc8;
+  border-radius: 6px;
+  color: #1a1714;
+  padding: 8px 16px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.authBtn:hover {
+  border-color: #9a7132;
+  background: rgba(154, 113, 50, 0.06);
+}

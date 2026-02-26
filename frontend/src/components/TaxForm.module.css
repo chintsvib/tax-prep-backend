@@ -1,0 +1,263 @@
+.formWrap {
+  background: #fff;
+  border: 1px solid #e0dbd4;
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 48px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.columns {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+}
+
+.column {
+  flex: 1;
+  min-width: 0;
+}
+
+.divider {
+  width: 1px;
+  background: #e0dbd4;
+  align-self: stretch;
+  margin: 0 32px;
+  flex-shrink: 0;
+}
+
+.columnHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.columnTitle {
+  font-family: "Instrument Serif", serif;
+  font-size: 1.4rem;
+  color: #1a1714;
+}
+
+.yearSelect {
+  background: #faf7f2;
+  border: 1px solid #d4cfc8;
+  border-radius: 6px;
+  color: #1a1714;
+  padding: 6px 12px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.yearSelect:focus {
+  border-color: #9a7132;
+}
+
+.filingStatus {
+  margin-bottom: 16px;
+}
+
+.statusGroup {
+  display: flex;
+  gap: 0;
+  border: 1px solid #d4cfc8;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.statusBtn {
+  flex: 1;
+  background: #faf7f2;
+  border: none;
+  border-right: 1px solid #d4cfc8;
+  color: #9a958e;
+  padding: 8px 4px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.statusBtn:last-child {
+  border-right: none;
+}
+
+.statusBtn:hover {
+  color: #1a1714;
+}
+
+.statusActive {
+  background: #9a7132;
+  color: #fff;
+}
+
+.statusActive:hover {
+  color: #fff;
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+.label {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: #7a756e;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hint {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #b0aaa2;
+  text-transform: none;
+  letter-spacing: 0;
+  font-style: italic;
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  background: #faf7f2;
+  border: 1px solid #d4cfc8;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.inputWrap:focus-within {
+  border-color: #9a7132;
+}
+
+.prefix {
+  color: #b0aaa2;
+  padding-left: 12px;
+  font-size: 0.95rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.input {
+  background: transparent;
+  border: none;
+  color: #1a1714;
+  padding: 10px 12px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  width: 100%;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #c5c0b8;
+}
+
+/* Hide number input spinners */
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.field > .input {
+  background: #faf7f2;
+  border: 1px solid #d4cfc8;
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: border-color 0.2s;
+}
+
+.field > .input:focus {
+  border-color: #9a7132;
+}
+
+.expandBtn {
+  background: none;
+  border: none;
+  color: #9a958e;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.expandBtn:hover {
+  color: #9a7132;
+}
+
+.arrowDown::after {
+  content: "\25BE";
+  font-size: 0.7rem;
+}
+
+.arrowUp::after {
+  content: "\25B4";
+  font-size: 0.7rem;
+}
+
+.advanced {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #e8e4de;
+}
+
+.submitBtn {
+  display: block;
+  width: 100%;
+  background: #9a7132;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 16px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  margin-top: 32px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.submitBtn:hover {
+  background: #b08540;
+}
+
+.submitBtn:active {
+  transform: scale(0.99);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .formWrap {
+    padding: 24px 20px;
+  }
+
+  .columns {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    margin: 0;
+  }
+}
