@@ -11,7 +11,7 @@ export default function Header({ onLoginClick }: HeaderProps) {
   return (
     <header className={styles.header}>
       <div className={styles.brand}>
-        <h1 className={styles.logo}>RefundLens</h1>
+        <h1 className={styles.logo}>WhyMyRefundChanged</h1>
         <span className={styles.tagline}>
           Find out why your refund changed in 60 seconds.
         </span>
